@@ -34,7 +34,15 @@ class app:
         self.cuerpo.place(anchor=tk.NW, relwidth=1.0,
                           relheight=0.9, relx=0, rely=0.1)
 
+class meme(app):
+    def __init__(self, master, titulo):
+        super().__init__(master, titulo)
 
-lista_memes = app(root, 'LISTA DE MEMES')
+class lista(app):
+    def __init__(self, master, titulo):
+        super().__init__(master, titulo)
+
+
+lista_memes = lista(root, 'LISTA DE MEMES')
 
 root.mainloop()
