@@ -2,6 +2,7 @@ import tkinter as tk
 from PIL import ImageTk, Image
 import tkinter.font as tkFont
 from json import *
+import requests #Importando requests
 
 
 '''RECUERDEN COMENTAR SUS CAMBIOS'''
