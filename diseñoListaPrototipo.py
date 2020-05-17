@@ -4,6 +4,8 @@ import tkinter.font as tkFont
 from json import *
 import requests #Importando requests
 
+leer_json = open('NombreDelJsons.json','r') ##Funcion para leer json
+
 
 '''RECUERDEN COMENTAR SUS CAMBIOS'''
 
@@ -69,7 +71,8 @@ class meme(app): ##AGREGUE EL FORMATO PARA LA VENTANA DONDE MUESTRA EL MEME
         self.Regresar = tk.Button(self.cuerpo,
                                  bg = 'white', 
                                  text = 'Regresar',
-                                 font=tkFont.Font(family='Roboto', size=15)
+                                 font=tkFont.Font(family='Roboto', size=15),
+                                 command = lista_memes ##Comando al boton
                                  )
         self.Regresar.place(anchor = tk.NW, relx = 0.4, rely = 0.9)
 
