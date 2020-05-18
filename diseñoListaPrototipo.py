@@ -5,7 +5,26 @@ from json import *
 import requests  # Importando requests
 
 leer_json = open('NombreDelJsons.json', 'r')  # Funcion para leer json
+URL = 'https://api.imgflip.com/get_memes'
+r = requests.get(URL)
 
+
+datos_json = loads(r.text)
+
+
+
+top_15 = []
+#print(datos_json)
+count=0
+for i in datos_json['data']['memes']:
+    print(i['name'])
+
+    if count<15:
+        top_15.append(i)
+
+    elif count>15:
+        break
+    count+=1
 
 '''RECUERDEN COMENTAR SUS CAMBIOS'''
 
@@ -72,7 +91,7 @@ class lista(app):
         # this just popultes a list as a replacement for your actual inputs for troubleshooting purposes
         for item in range(15):
             # aqui en vez de i, meteriamos el nombre del meme
-            self.meme_list.append(("MEME", str(item)))
+            self.meme_list.append((top_15[item]['name']))
 
         # this says for *counter* in *however many elements there are in the list files*
         for i in range(len(self.meme_list)):
