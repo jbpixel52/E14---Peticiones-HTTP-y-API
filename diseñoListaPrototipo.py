@@ -61,7 +61,7 @@ class app:
 
         url_imagen = top_15[index_of_clicked]['url']
         respuesta = requests.get(url_imagen, stream = True)
-        with open('meme.jpg','wb') as file:
+        with open('meme.jpg','wb') as file: #hacer que descargue la imagen del meme
             for chunk in respuesta.iter_content():
                 file.write(chunk)
         self.img_meme = ImageTk.PhotoImage(Image.open('meme.jpg').resize((300, 360)))
