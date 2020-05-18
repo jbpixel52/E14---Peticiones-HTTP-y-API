@@ -1,2 +1,1 @@
-
-print(r.text)
+requests
