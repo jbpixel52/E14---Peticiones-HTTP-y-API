@@ -60,9 +60,12 @@ class app:
                           relheight=0.9, relx=0, rely=0.1)
 
         url_imagen = top_15[index_of_clicked]['url']
-        respuesta = requests.get(url_imagen)
-        img_data = respuesta.content
-        self.img_meme = ImageTk.PhotoImage(Image.open(BytesIO(img_data)))
+        respuesta = requests.get(url_imagen, stream = True)
+        with open('meme.jpg','wb') as file:
+            for chunk in respuesta.iter_content():
+                file.write(chunk)
+        self.img_meme = ImageTk.PhotoImage(Image.open('meme.jpg').resize((300, 360)))
+        print(url_imagen)
 
 
 class meme(app):  # AGREGUE EL FORMATO PARA LA VENTANA DONDE MUESTRA EL MEME
@@ -130,7 +133,6 @@ class lista(app):
 
 lista_memes = lista(root, 'TOP 15 MEMES')
 # Aqui forma la ventana del meme
-
 lista_memes.buttons()
 lista_memes.screen.tkraise()
 
