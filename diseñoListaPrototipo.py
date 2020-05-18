@@ -12,19 +12,18 @@ r = requests.get(URL)
 datos_json = loads(r.text)
 
 
-
 top_15 = []
-#print(datos_json)
-count=0
+# print(datos_json)
+count = 0
 for i in datos_json['data']['memes']:
     print(i['name'])
 
-    if count<15:
+    if count < 15:
         top_15.append(i)
 
-    elif count>15:
+    elif count > 15:
         break
-    count+=1
+    count += 1
 
 '''RECUERDEN COMENTAR SUS CAMBIOS'''
 
@@ -32,7 +31,7 @@ screenSize = {'width': 360, 'height': 800}
 root = tk.Tk()
 root.minsize(screenSize['width'], screenSize['height'])
 root.resizable(False, False)
-pepe = ImageTk.PhotoImage( Image.open('Pepe.png').resize((75,75)) )
+pepe = ImageTk.PhotoImage(Image.open('Pepe.png').resize((65, 65)))
 
 
 class app:
@@ -44,11 +43,6 @@ class app:
         self.encabezado = tk.Frame(self.screen, bg="lime green")
         self.encabezado.place(relwidth=1.0, relheight=0.1, anchor=tk.NW)
         self.encabezado.place_configure(relx=0, rely=0)
-
-        self.canvas = tk.Canvas(self.encabezado, bg="black", width=75, height=75)
-        self.canvas.place(anchor=tk.NW, relx=0.75, rely=0.02)
-        self.canvas.create_image( 0,0, image = pepe, anchor = tk.NW )
-
 
         self.label_titulo = tk.Label(self.encabezado,
                                      bg="lime green",
@@ -89,6 +83,10 @@ class lista(app):
     def __init__(self, master, titulo):
         super().__init__(master, titulo)
 
+        self.canvas = tk.Canvas(
+            self.encabezado, bg="black", width=75, height=75)
+        self.canvas.place(anchor=tk.NW, relx=0.75, rely=0.02)
+        self.canvas.create_image(0, 0, image=pepe, anchor=tk.NW)
         # creates list to replace your actual inputs for troubleshooting purposes
         self.meme_list = []
         self.btn_list = []  # creates list to store the buttons ins
