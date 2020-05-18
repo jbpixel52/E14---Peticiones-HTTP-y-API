@@ -59,12 +59,10 @@ class app:
         self.cuerpo.place(anchor=tk.NW, relwidth=1.0,
                           relheight=0.9, relx=0, rely=0.1)
 
-
         url_imagen = top_15[index_of_clicked]['url']
         respuesta = requests.get(url_imagen)
         img_data = respuesta.content
         self.img_meme = ImageTk.PhotoImage(Image.open(BytesIO(img_data)))
-
 
 
 class meme(app):  # AGREGUE EL FORMATO PARA LA VENTANA DONDE MUESTRA EL MEME
@@ -73,9 +71,9 @@ class meme(app):  # AGREGUE EL FORMATO PARA LA VENTANA DONDE MUESTRA EL MEME
         global img_meme
         self.canvas = tk.Canvas(self.cuerpo, bg="black", width=300, height=360)
         self.canvas.place(anchor=tk.NW, relx=0.075, rely=0.15)
-        #self.canvas.create_image(0,0,image=imagen)
-        self.Label_img = tk.Label(self.canvas, image=self.img_meme)
-        self.Label_img.pack()
+        # self.canvas.create_image(0,0,image=imagen)
+        self.canvas.create_image(0, 0, image=self.img_meme, anchor=tk.NW)
+
         root.update_idletasks()
 
         self.Descripcion = tk.Message(self.cuerpo,
@@ -92,7 +90,6 @@ class meme(app):  # AGREGUE EL FORMATO PARA LA VENTANA DONDE MUESTRA EL MEME
                                   command=lista_memes.screen.tkraise  # Comando al boton
                                   )
         self.Regresar.place(anchor=tk.NW, relx=0.4, rely=0.9)
-
 
 
 class lista(app):
@@ -124,9 +121,6 @@ class lista(app):
     def click(self, c):
         name_of_meme = self.btn_list[c].cget('text')
         index_of_clicked = c
-
-
-
 
         vista_memes = meme(root, name_of_meme)
         root.update_idletasks()
