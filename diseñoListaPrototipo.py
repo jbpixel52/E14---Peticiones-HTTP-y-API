@@ -55,7 +55,7 @@ class meme(app):  # AGREGUE EL FORMATO PARA LA VENTANA DONDE MUESTRA EL MEME
                                   bg='white',
                                   text='Regresar',
                                   font=tkFont.Font(family='Roboto', size=15),
-                                  command=lista_memes  # Comando al boton
+                                  command=lista_memes.screen.tkraise  # Comando al boton
                                   )
         self.Regresar.place(anchor=tk.NW, relx=0.4, rely=0.9)
 
@@ -64,10 +64,31 @@ class lista(app):
     def __init__(self, master, titulo):
         super().__init__(master, titulo)
 
+        # creates list to replace your actual inputs for troubleshooting purposes
+        self.meme_list = []
+        self.btn_list = []  # creates list to store the buttons ins
+
+    def buttons(self):
+        # this just popultes a list as a replacement for your actual inputs for troubleshooting purposes
+        for item in range(15):
+            # aqui en vez de i, meteriamos el nombre del meme
+            self.meme_list.append(("MEME", str(item)))
+
+        # this says for *counter* in *however many elements there are in the list files*
+        for i in range(len(self.meme_list)):
+            # the below line creates a button and stores it in an array we can call later, it will print the value of it's own text by referencing itself from the list that the buttons are stored in
+            self.btn_list.append(tk.Button(
+                self.cuerpo, bg='white',
+                font=tkFont.Font(family='Roboto', size=15), text=self.meme_list[i], command=lambda c=i: print(self.btn_list[c].cget("text"))))
+            self.btn_list[i].pack()  # this packs the buttons
+
 
 lista_memes = lista(root, 'LISTA DE MEMES')
 # Aqui forma la ventana del meme
 vista_memes = meme(root, 'AQUI VA EL TITULO DEL MEME',
                    'AQUI VA LA DESCRIPCION DEL MEME')
+
+lista_memes.buttons()
+lista_memes.screen.tkraise()
 
 root.mainloop()
