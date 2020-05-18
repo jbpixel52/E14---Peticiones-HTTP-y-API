@@ -108,7 +108,7 @@ class lista(app):
             self.btn_list[i].pack()  # this packs the buttons
 
 
-lista_memes = lista(root, 'LISTA DE MEMES')
+lista_memes = lista(root, 'TOP 15 MEMES')
 # Aqui forma la ventana del meme
 vista_memes = meme(root, 'AQUI VA EL TITULO DEL MEME',
                    'AQUI VA LA DESCRIPCION DEL MEME')
