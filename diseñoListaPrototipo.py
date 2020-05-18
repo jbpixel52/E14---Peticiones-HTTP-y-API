@@ -32,6 +32,7 @@ screenSize = {'width': 360, 'height': 800}
 root = tk.Tk()
 root.minsize(screenSize['width'], screenSize['height'])
 root.resizable(False, False)
+pepe = ImageTk.PhotoImage( Image.open('Pepe.png').resize((75,75)) )
 
 
 class app:
@@ -43,6 +44,11 @@ class app:
         self.encabezado = tk.Frame(self.screen, bg="lime green")
         self.encabezado.place(relwidth=1.0, relheight=0.1, anchor=tk.NW)
         self.encabezado.place_configure(relx=0, rely=0)
+
+        self.canvas = tk.Canvas(self.encabezado, bg="black", width=75, height=75)
+        self.canvas.place(anchor=tk.NW, relx=0.75, rely=0.02)
+        self.canvas.create_image( 0,0, image = pepe, anchor = tk.NW )
+
 
         self.label_titulo = tk.Label(self.encabezado,
                                      bg="lime green",
