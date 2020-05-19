@@ -5,11 +5,49 @@ from json import *
 from io import BytesIO
 import requests  # Importando requests
 
+from ImageDownloader import download_image
+
 leer_json = open('NombreDelJsons.json', 'r')  # Funcion para leer json
 URL = 'https://api.imgflip.com/get_memes'
 r = requests.get(URL)
 top_15 = []
 index_of_clicked = 0
+
+link_imagenes = {
+    "Distracted Boyfriend": "https://i.imgflip.com/1ur9b0.jpg",
+    "Drake Hotline Bling": "https://i.imgflip.com/30b1gx.jpg",
+    "Two Buttons": "https://i.imgflip.com/1g8my4.jpg",
+    "Batman Slapping Robin": "https://i.imgflip.com/9ehk.jpg",
+    "Expanding Brain": "https://i.imgflip.com/1jwhww.jpg",
+    "Uno Draw 25 Cards": "https://i.imgflip.com/3lmzyx.jpg",
+    "Running Away Balloon": "https://i.imgflip.com/261o3j.jpg",
+    "Change My Mind": "https://i.imgflip.com/24y43o.jpg",
+    "Mocking Spongebob": "https://i.imgflip.com/1otk96.jpg",
+    "Is This A Pigeon": "https://i.imgflip.com/1o00in.jpg",
+    "Inhaling Seagull": "https://i.imgflip.com/1w7ygt.jpg",
+    "Left Exit 12 Off Tamp": "https://i.imgflip.com/22bdq6.jpg",
+    "Woman Yelling At Cat": "https://i.imgflip.com/345v97.jpg",
+    "American Chopper Argument": "https://i.imgflip.com/2896ro.jpg",
+    "Epic Handshake": "https://i.imgflip.com/28j0te.jpg"
+}
+
+descripciones_memes = {
+    "Distracted Boyfriend": "Boyfriend distracted by another girl",
+    "Drake Hotline Bling": "Drake reacting negatively to one thing and positively to another",
+    "Two Buttons": "Someone having a hard time deciding between two buttons",
+    "Batman Slapping Robin": "Batman slaps Robin",
+    "Expanding Brain": "An expanding brain according to different decisions",
+    "Uno Draw 25 Cards": "Someone drawing 25 UNO to avoid doing something",
+    "Running Away Balloon": "Trying to grab a balloon, but being stopped",
+    "Change My Mind": "Someone challenges you to change his mind about something",
+    "Mocking Spongebob": "Spongebob mocking something",
+    "Is This A Pigeon": "Someone thinking a butterfly is a pigeon",
+    "Inhaling Seagull": "Seagull inhaling to scream",
+    "Left Exit 12 Off Tamp": "Someone taking the exit 12",
+    "Woman Yelling At Cat": "Woman yelling at cat",
+    "American Chopper Argument": "Argument between two guys",
+    "Epic Handshake": "Epic Handshake from Predator"
+}
 
 
 name_of_meme = ''
@@ -59,33 +97,42 @@ class app:
         self.cuerpo.place(anchor=tk.NW, relwidth=1.0,
                           relheight=0.9, relx=0, rely=0.1)
 
-        url_imagen = top_15[index_of_clicked]['url']
-        respuesta = requests.get(url_imagen, stream = True)
-        with open('meme.jpg','wb') as file: #hacer que descargue la imagen del meme
-            for chunk in respuesta.iter_content():
-                file.write(chunk)
-        self.img_meme = ImageTk.PhotoImage(Image.open('meme.jpg').resize((300, 360)))
-        print(url_imagen)
+
+img_meme = None # evitar que el recolector de basura borre la imagen
 
 
 class meme(app):  # AGREGUE EL FORMATO PARA LA VENTANA DONDE MUESTRA EL MEME
-    def __init__(self, master, titulo):
+    def __init__(self, master, titulo,url_imagen, descripcion_del_meme):
         super().__init__(master, titulo)
+        
+
+        """
+        respuesta = requests.get(url_imagen, stream = True)
+        
+        
+        with open('meme.png','wb') as file: #hacer que descargue la imagen del meme
+            for chunk in respuesta.iter_content():
+                file.write(chunk)
+        """ ## En lugar de usar esto usamos el download_image
+        filename = download_image('meme', url_imagen) # en teoría debería de funcoinar
+
         global img_meme
+        img_meme = ImageTk.PhotoImage(Image.open(filename).resize((300, 360)))
         self.canvas = tk.Canvas(self.cuerpo, bg="black", width=300, height=360)
-        self.canvas.place(anchor=tk.NW, relx=0.075, rely=0.15)
+        self.canvas.place(anchor=tk.NW, relx=0.075, rely=0.1)
         # self.canvas.create_image(0,0,image=imagen)
-        self.canvas.create_image(0, 0, image=self.img_meme, anchor=tk.NW)
+        self.canvas.create_image(0, 0, image=img_meme, anchor=tk.NW)
 
         root.update_idletasks()
 
         self.Descripcion = tk.Message(self.cuerpo,
                                       bg='white',
-                                      text=name_of_meme,
+                                      fg = 'black',
+                                      text= descripcion_del_meme,
                                       font=tkFont.Font(
                                           family='Roboto', size=15)
                                       )
-        self.Descripcion.place(anchor=tk.NW, relx=0.1, rely=0.6)
+        self.Descripcion.place(anchor=tk.NW, relx=0.1, rely=0.65)
         self.Regresar = tk.Button(self.cuerpo,
                                   bg='white',
                                   text='Regresar',
@@ -124,8 +171,12 @@ class lista(app):
     def click(self, c):
         name_of_meme = self.btn_list[c].cget('text')
         index_of_clicked = c
+        url_imagen = link_imagenes[name_of_meme]
+        descripcion_del_meme = descripciones_memes[name_of_meme]
 
-        vista_memes = meme(root, name_of_meme)
+        print(url_imagen)
+
+        vista_memes = meme(root, name_of_meme, url_imagen, descripcion_del_meme)
         root.update_idletasks()
         vista_memes.screen.tkraise()
         root.update_idletasks()
